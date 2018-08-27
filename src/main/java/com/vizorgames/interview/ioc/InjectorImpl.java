@@ -6,13 +6,15 @@ import java.util.Map;
 
 
 //Injector==Linker
-//FAktory== Provider
+//FAktory== Provider==Mappingg=(injector)
 public class InjectorImpl implements Injector
 {
 
 
-    private final Map<Class<?>, Provider<?>>  providers = new HashMap<>();
+//    private final Map<Class<?>, Provider<?>>  providers = new HashMap<>();
+private final Map<Class<?>, Class<?>> classMap = new HashMap<>();
 
+    private Map<Class, Class> interfaceMappings = new HashMap<>();
 
     @Inject
     @Override
@@ -28,8 +30,21 @@ public class InjectorImpl implements Injector
     @Override
     public <T> void bind(Class<T> base, Class<? extends T> impl)
     {
+        classMap.put(base, impl.asSubclass(base));
+            if (interfaceType.isInterface()) {
+                if (implementationType.isInterface()) {
+                    throw new IllegalArgumentException("The given type is an interface. Expecting the second argument to not be an interface but an actual class");
+                } else if (isAbstractClass(implementationType)) {
+                    throw new IllegalArgumentException("The given type is an abstract class. Expecting the second argument to be an actual implementing class");
+                } else {
+                    interfaceMappings.put(interfaceType, implementationType);
+                }
+            } else {
+                throw new IllegalArgumentException("The given type is not an interface. Expecting the first argument to be an interface.");
+            }
 
-        throw new UnsupportedOperationException("Not implemented");
+
+//        throw new UnsupportedOperationException("Not implemented");
     }
 
     @Override
