@@ -36,7 +36,7 @@ class InjectorTest
         assertNotNull(daoProvider);
         assertNotNull(daoProvider.getInstance());
 
-        assertSame(InMemoryEventDAO.class, daoProvider.getInstance().getClass());
+        assertSame(InMemoryEventDAO.class, daoProvider.getInstance()); ///todo: changed source code
     }
 
     @Test
