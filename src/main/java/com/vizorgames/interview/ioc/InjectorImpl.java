@@ -2,18 +2,16 @@ package com.vizorgames.interview.ioc;
 
 import com.vizorgames.interview.exception.BindingNotFoundException;
 import com.vizorgames.interview.exception.ConstructorAmbiguityException;
+import com.vizorgames.interview.exception.NoSuitableConstructorException;
 
 import javax.inject.Inject;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Parameter;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
+import java.lang.reflect.*;
 import java.util.*;
 import java.util.stream.Collectors;
 //import javax.inject.Provider;
 
 //Injector==Linker
-//FAktory== Provider                                       ==Mappingg=(injector)
+//Faktory==Provider
 public class InjectorImpl implements Injector {
 
 
@@ -23,51 +21,102 @@ public class InjectorImpl implements Injector {
 
     private final Map<Class, Provider> providerMap = new HashMap<>();
     private final Map<Class<?>, Class<?>> classMap = new HashMap<>();
-    private Map<Class, Class>  interfaceMappings = new HashMap<>();
-    private Set<Class> singletonClasses = new HashSet<>();
+
+    private Map<Class, Class> classMappings = new HashMap<>();
     private Map<Class, Object> singletonInstances = new HashMap<>();
     private Map<Class, Class> singletonMappings = new HashMap<>();
 
 
-    private <T> Constructor<T> findConstructor(Class<T> type) {
-        final Constructor<?>[] constructors = type.getConstructors();
+    @Override
+    public <T> Provider<T> getProvider(Class<T> requestedType) {
+        if (classMappings.containsKey(requestedType)) {
+//            T instance = getInstanceCustom(requestedType);
 
-        if (constructors.length == 0) {
+            return new Provider<T>() {
+                @Override
+                public T getInstance() {
+                    return getInstanceCustom(requestedType);
+//                    return getInstanceCustom(requestedType);
+                }
+            };
+        } else if (singletonMappings.containsKey(requestedType)) {
+            return new Provider<T>() {
+                @Override
+                public T getInstance() {
+                    return getInstanceCustom(requestedType);
+//                    return getInstanceCustom(requestedType);
+                }
+            };
+
+        } else if (!requestedType.isInterface()) { //todo: Not the best way for dependency binding check
             throw new BindingNotFoundException();
-        }
-
-        if (constructors.length > 1) {
-
-            final List<Constructor<?>> constructorsWithInject = Arrays
-                    .stream(constructors)
-                    .filter(c -> c.isAnnotationPresent(Inject.class))
-                    .collect(Collectors.toList());
-
-
-            if (constructorsWithInject.size() != 1) {
-                System.out.println("kek");
-                throw new BindingNotFoundException();
-            }
-
-            return (Constructor<T>) constructorsWithInject.get(0);
         } else {
-            return (Constructor<T>) constructors[0];
+            return null;
         }
     }
 
-//    private Provider getProviderArgument(Parameter param, Class requestedType) {
-//        if (param.getParameterizedType() instanceof ParameterizedType) {
-//            ParameterizedType typeParam = (ParameterizedType) param.getParameterizedType();
-//
-//            final Type providerType = typeParam.getActualTypeArguments()[0];
-//
-//            return () -> InjectorImpl.this.createNewInstance((Class) providerType);
-//        } else {
+    public <T> T getInstanceCustomgit (Class<T> requestedType) {
+        return getInstanceCustom(requestedType, null);
+    }
+
+//    private <T> T getInstanceFromProvider(Class<T> type) {
+//        try {
+//            final Provider<T> provider = providerMap.get(type);
+//            return provider.getInstance();
+//        } catch (Exception e) {
 //            throw new BindingNotFoundException();
 //        }
+//
 //    }
 
-    private <T> T createNewInstance(Class<T> type, Class<?> parent) {
+    private <T> T getInstanceCustom(Class<T> requestedType, Class<?> parent) throws
+            ConstructorAmbiguityException, NoSuitableConstructorException, BindingNotFoundException {
+
+        Class<T> type = requestedType;
+
+
+        if (classMappings.containsKey(requestedType)) {//
+            type = classMappings.get(requestedType);
+        } else if (singletonMappings.containsKey(requestedType)) {
+            type = singletonMappings.get(requestedType);
+        }
+//        else {
+//            throw new BindingNotFoundException();
+//        }
+//        } else if (providerMap.containsKey(requestedType)) {
+//            return getInstanceFromProvider(requestedType);
+//        }
+        if (requestedClasses.contains(type)) {
+            if (!instantiableClasses.contains(type)) {
+                throw new ConstructorAmbiguityException();
+            }
+        } else {
+            requestedClasses.add(type);
+        }
+        if (singletonInstances.containsKey(type)) {
+            return (T) singletonInstances.get(type);
+        }
+
+//        if (providerMap.containsKey(type)) {
+//            final T instanceFromProvider = getInstanceFromProvider(type);
+//            markAsInstantiable(type);
+//            if (isSingleton(type)) {
+//                singletonInstances.put(type, instanceFromProvider);
+//            }
+//            return instanceFromProvider;
+//        }
+        return createNewInstance(type, parent);
+
+    }
+
+
+    private void markAsInstantiable(Class type) {
+        if (!instantiableClasses.contains(type)) {
+            instantiableClasses.add(type);
+        }
+    }
+
+    private <T> T createNewInstance(Class<T> type, Class<?> parent) throws ConstructorAmbiguityException, NoSuitableConstructorException {
         final Constructor<T> constructor = findConstructor(type);
         final Parameter[] parameters = constructor.getParameters();
 
@@ -94,128 +143,57 @@ public class InjectorImpl implements Injector {
                 singletonInstances.put(type, newInstance);
             }
             return newInstance;
-        } catch (Exception e) {
-            throw new ConstructorAmbiguityException("constructor ambiguity");
+        } catch (IllegalAccessException | InstantiationException | InvocationTargetException e) {
+            e.printStackTrace();
         }
+        return null;
     }
 
+    private <T> Constructor<T> findConstructor(Class<T> type) {
+        final Constructor<?>[] constructors = type.getConstructors();
 
-    @Override
-    public   <T> Provider<T>  getProvider(Class<T> requestedType) {
-        if (interfaceMappings.containsKey(requestedType) || singletonMappings.containsKey(requestedType)) {
-            return new Provider<T>() {
-                @Override
-                public T getInstance() {
+//        if (constructors.length == 0) { //for checking non public constructors
+//            throw new BindingNotFoundException();
+//        }
 
-                    return getInstanceCustom(requestedType);
+        if (constructors.length > 1) {
+            final List<Constructor<?>> constructorsWithInject = Arrays
+                    .stream(constructors)
+                    .filter(c -> c.isAnnotationPresent(Inject.class))
+                    .collect(Collectors.toList());
+            if (constructorsWithInject.size() == 0) { //todo: It's not really check default constructor in class, it's just check any constructor with 0 arguments
+                if (constructors.length > 1 || constructors[0].getParameterCount() != 0) {
+                    throw new NoSuitableConstructorException();
                 }
-            };
+            } else if (constructorsWithInject.size() >= 2) {
+                throw new ConstructorAmbiguityException();
+            }
+
+
+            return (Constructor<T>) constructorsWithInject.get(0);
         } else {
-            return null;
+            return (Constructor<T>) constructors[0];
         }
-//        return getInstanceCustom(requestedType);
-    }
-
-    public  <T> T getInstanceCustom(Class<T> requestedType) {
-        return getInstanceCustom(requestedType, null);
-    }
-
-    private  <T> T getInstanceFromProvider(Class<T> type) {
-        try {
-            final Provider<T> provider = providerMap.get(type);
-            return provider.getInstance();
-        } catch (Exception e) {
-            throw new BindingNotFoundException();
-        }
-
-    }
-    private <T> T getInstanceCustom(Class<T> requestedType, Class<?> parent) {
-        try {
-
-            Class<T> type = requestedType;
-
-            if (requestedType.isInterface()) {
-                if (interfaceMappings.containsKey(requestedType)) {
-                    type = interfaceMappings.get(requestedType);
-                }
-                if (singletonMappings.containsKey(requestedType)) {
-                    type = singletonMappings.get(requestedType);
-                }
-            } else if (providerMap.containsKey(requestedType)) {
-                return getInstanceFromProvider(requestedType);
-            }
-            if (requestedClasses.contains(type)) {
-                if (!instantiableClasses.contains(type)) {
-                    throw new ConstructorAmbiguityException();
-                }
-            } else {
-                requestedClasses.add(type);
-            }
-            if (singletonInstances.containsKey(type)) {
-                return (T) singletonInstances.get(type);
-            }
-
-            if (providerMap.containsKey(type)) {
-                final T instanceFromProvider = getInstanceFromProvider(type);
-                markAsInstantiable(type);
-                if (isSingleton(type)) {
-                    singletonInstances.put(type, instanceFromProvider);
-                }
-                return instanceFromProvider;
-            }
-            return createNewInstance(type, parent);
-        } catch (Exception e) {
-            String errorMessage = "EasyDI wasn't able to create your class hierarchy. ";
-            throw new IllegalStateException(errorMessage, e);
-        }
-
     }
 
     private boolean isSingleton(Class type) {
         return singletonMappings.containsValue(type);
     }
 
-    private void markAsInstantiable(Class type) {
-        if (!instantiableClasses.contains(type)) {
-            instantiableClasses.add(type);
-        }
-    }
-
+    //    private Provider getProviderArgument(Parameter param, Class requestedType) {
+//        if (param.getParameterizedType() instanceof ParameterizedType) {
+//            ParameterizedType typeParam = (ParameterizedType) param.getParameterizedType();
+//
+//            final Type providerType = typeParam.getActualTypeArguments()[0];
+//
+//            return () -> InjectorImpl.this.createNewInstance((Class) providerType);
+//        } else {
+//            throw new BindingNotFoundException();
+//        }
+//    }
     @Override
     public <T> void bind(Class<T> base, Class<? extends T> impl) {
-//        classMap.put(base, impl.asSubclass(base));
-        interfaceMappings.put(base, impl); // <---
-//        providerMap.put(base, () -> {
-//            final Provider provider = new Provider() {
-//                @Override
-//                public Object getInstance() {
-//                    return impl;
-//                }
-//            };
-//            return provider;
-//        });
-
-
-//                new Provider<Class<?>>() {
-//            @Override
-//            public Class getInstance() {
-//                return  impl; //here should be new instance of impl class
-//            }
-//        });
-//        if (interfaceType.isInterface()) {
-//            if (implementationType.isInterface()) {
-//                throw new IllegalArgumentException("The given type is an interface. Expecting the second argument to not be an interface but an actual class");
-//            } else if (isAbstractClass(implementationType)) {
-//                throw new IllegalArgumentException("The given type is an abstract class. Expecting the second argument to be an actual implementing class");
-//            } else {
-//                interfaceMappings.put(interfaceType, implementationType);
-//            }
-//        } else {
-//            throw new IllegalArgumentException("The given type is not an interface. Expecting the first argument to be an interface.");
-//        }
-
-
-//        throw new UnsupportedOperationException("Not implemented");
+        classMappings.put(base, impl);
     }
 
     @Override

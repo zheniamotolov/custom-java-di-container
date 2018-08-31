@@ -36,11 +36,6 @@ class InjectorTest {
         assertSame(InMemoryEventDAO.class, daoProvider.getInstance().getClass());
     }
 
-    @Test
-    void testNonExistingBinding() {
-        Injector injector = new InjectorImpl();
-        assertNull(injector.getProvider(EventDAO.class));
-    }
 
     @Test
     void testUniqBinding() {
@@ -72,7 +67,6 @@ class InjectorTest {
         Provider<EventService> serviceProvider = injector.getProvider(EventService.class);
 
         EventService service = serviceProvider.getInstance();
-
         EventDAO expectedDao = daoProvider.getInstance();
         EventDAO injectedDao;
 
@@ -114,16 +108,20 @@ class InjectorTest {
             assertTrue(serviceProvider != null);
         });
     }
-
+    @Test
+    void testNonExistingBinding() {
+        Injector injector = new InjectorImpl();
+        assertNull(injector.getProvider(EventDAO.class));
+    }
     @Test
     void testBindingNotFoundException() {
         assertThrows(BindingNotFoundException.class, () -> {
             Injector injector = new InjectorImpl();
-
-            Provider<EventService> serviceProvider = injector.getProvider(EventService.class);
+//          injector.bind(EventService.class, EventService.class);
+            Provider<EventService> serviceProvider = injector.getProvider(EventService.class);//why this class not make bind() on itself like in previous test cases ?
 
             // In case of a correct implementation the following statement is unreachable
-            assertTrue(serviceProvider != null);
+            assertTrue(serviceProvider == null);
         });
     }
 }
