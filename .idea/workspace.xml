@@ -2,12 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="565e9173-40d9-4f69-9716-a68bbd28a267" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/vizorgames/interview/ioc/InjectorImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/vizorgames/interview/ioc/InjectorImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/com/vizorgames/interview/InjectorTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/vizorgames/interview/InjectorTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/vizorgames/interview/ioc/InjectorImpl$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/vizorgames/interview/ioc/InjectorImpl$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/vizorgames/interview/ioc/InjectorImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/vizorgames/interview/ioc/InjectorImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/com/vizorgames/interview/InjectorTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/com/vizorgames/interview/InjectorTest.class" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -22,16 +18,18 @@
       <file leaf-file-name="InjectorImpl.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/vizorgames/interview/ioc/InjectorImpl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2069">
-              <caret line="152" selection-start-line="152" selection-end-line="152" />
+            <state relative-caret-position="226">
+              <caret line="106" column="90" selection-start-line="106" selection-start-column="90" selection-end-line="106" selection-end-column="90" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#1857#1858#0" expanded="true" />
-                <element signature="e#1918#1919#0" expanded="true" />
-                <element signature="e#6371#6372#0" expanded="true" />
-                <element signature="e#6431#6432#0" expanded="true" />
-                <element signature="e#7027#7028#0" expanded="true" />
-                <element signature="e#7072#7073#0" expanded="true" />
+                <element signature="e#1915#1916#0" expanded="true" />
+                <element signature="e#1974#1975#0" expanded="true" />
+                <element signature="e#6667#6668#0" expanded="true" />
+                <element signature="e#6727#6728#0" expanded="true" />
+                <element signature="e#7327#7328#0" expanded="true" />
+                <element signature="e#7372#7373#0" expanded="true" />
+                <element signature="e#7463#7464#0" expanded="true" />
+                <element signature="e#7512#7513#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -40,8 +38,8 @@
       <file leaf-file-name="InjectorTest.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/java/com/vizorgames/interview/InjectorTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="508">
-              <caret line="65" selection-start-line="65" selection-end-line="65" />
+            <state relative-caret-position="685">
+              <caret line="118" column="51" selection-start-line="118" selection-start-column="51" selection-end-line="118" selection-end-column="51" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -113,7 +111,6 @@
       <find>EventS</find>
       <find>bind(</find>
       <find>getInstanceFromProvider</find>
-      <find>requestedClasses</find>
       <find>get</find>
       <find>interfaceMappings</find>
       <find>isSingleton</find>
@@ -123,6 +120,11 @@
       <find>refl</find>
       <find>find</find>
       <find>IllegalStateException</find>
+      <find>requestedClasses</find>
+      <find>NoSuitableConstructorService</find>
+      <find>NoS</find>
+      <find>NoSuitableConstructorException</find>
+      <find>Sing</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -741,29 +743,6 @@
       </option>
       <patterns />
     </configuration>
-    <configuration name="InjectorTest.testInjection" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="java-interview-task" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.vizorgames.interview.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" value="com.vizorgames.interview" />
-      <option name="MAIN_CLASS_NAME" value="com.vizorgames.interview.InjectorTest" />
-      <option name="METHOD_NAME" value="testInjection" />
-      <option name="TEST_OBJECT" value="method" />
-      <option name="VM_PARAMETERS" value="-ea" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="singleModule" />
-      </option>
-      <patterns />
-    </configuration>
     <configuration name="InjectorTest.testNoSuitableConstructorException" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="java-interview-task" />
       <extension name="coverage">
@@ -777,6 +756,29 @@
       <option name="PACKAGE_NAME" value="com.vizorgames.interview" />
       <option name="MAIN_CLASS_NAME" value="com.vizorgames.interview.InjectorTest" />
       <option name="METHOD_NAME" value="testNoSuitableConstructorException" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <patterns />
+    </configuration>
+    <configuration name="InjectorTest.testUniqBinding" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="java-interview-task" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.vizorgames.interview.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="com.vizorgames.interview" />
+      <option name="MAIN_CLASS_NAME" value="com.vizorgames.interview.InjectorTest" />
+      <option name="METHOD_NAME" value="testUniqBinding" />
       <option name="TEST_OBJECT" value="method" />
       <option name="VM_PARAMETERS" value="-ea" />
       <option name="PARAMETERS" />
@@ -843,15 +845,15 @@
       <item itemvalue="JUnit.InjectorTest" />
       <item itemvalue="JUnit.InjectorTest.testNoSuitableConstructorException" />
       <item itemvalue="JUnit.InjectorTest.testBindingNotFoundException" />
-      <item itemvalue="JUnit.InjectorTest.testInjection" />
+      <item itemvalue="JUnit.InjectorTest.testUniqBinding" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="JUnit.InjectorTest" />
         <item itemvalue="JUnit.InjectorTest.testNoSuitableConstructorException" />
-        <item itemvalue="JUnit.InjectorTest.testBindingNotFoundException" />
-        <item itemvalue="JUnit.InjectorTest.testInjection" />
+        <item itemvalue="JUnit.InjectorTest.testUniqBinding" />
         <item itemvalue="JUnit.InjectorTest.testExistingBinding" />
+        <item itemvalue="JUnit.InjectorTest.testBindingNotFoundException" />
       </list>
     </recent_temporary>
   </component>
@@ -875,44 +877,44 @@
       <workItem from="1535695630436" duration="9102000" />
       <workItem from="1535704900484" duration="82000" />
       <workItem from="1535705103995" duration="3308000" />
-      <workItem from="1535708985512" duration="19188000" />
+      <workItem from="1535708985512" duration="26941000" />
     </task>
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="InjectorTest_testBindingNotFoundException - 2018.08.31 at 17h 40m 14s.xml">
-      <configuration name="InjectorTest.testBindingNotFoundException" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="InjectorTest_testBindingNotFoundException - 2018.08.31 at 17h 41m 55s.xml">
-      <configuration name="InjectorTest.testBindingNotFoundException" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="InjectorTest - 2018.08.31 at 17h 42m 04s.xml">
+    <history-entry file="InjectorTest - 2018.08.31 at 20h 05m 57s.xml">
       <configuration name="InjectorTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="InjectorTest_testNoSuitableConstructorException - 2018.08.31 at 17h 42m 41s.xml">
+    <history-entry file="InjectorTest - 2018.08.31 at 20h 06m 27s.xml">
+      <configuration name="InjectorTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="InjectorTest_testNoSuitableConstructorException - 2018.08.31 at 20h 07m 06s.xml">
       <configuration name="InjectorTest.testNoSuitableConstructorException" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="InjectorTest_testNoSuitableConstructorException - 2018.08.31 at 17h 44m 02s.xml">
-      <configuration name="InjectorTest.testNoSuitableConstructorException" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="InjectorTest - 2018.08.31 at 17h 44m 47s.xml">
+    <history-entry file="InjectorTest - 2018.08.31 at 20h 07m 29s.xml">
       <configuration name="InjectorTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="InjectorTest - 2018.08.31 at 17h 50m 04s.xml">
+    <history-entry file="InjectorTest - 2018.08.31 at 20h 08m 47s.xml">
       <configuration name="InjectorTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="InjectorTest - 2018.08.31 at 18h 05m 47s.xml">
+    <history-entry file="InjectorTest - 2018.08.31 at 20h 09m 07s.xml">
       <configuration name="InjectorTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="InjectorTest - 2018.08.31 at 18h 31m 38s.xml">
+    <history-entry file="InjectorTest - 2018.08.31 at 20h 09m 30s.xml">
       <configuration name="InjectorTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="InjectorTest - 2018.08.31 at 18h 33m 52s.xml">
+    <history-entry file="InjectorTest - 2018.08.31 at 20h 11m 24s.xml">
+      <configuration name="InjectorTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="InjectorTest - 2018.08.31 at 20h 37m 43s.xml">
+      <configuration name="InjectorTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="InjectorTest - 2018.08.31 at 20h 42m 41s.xml">
       <configuration name="InjectorTest" configurationId="JUnit" />
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="131328000" />
+    <option name="totallyTimeSpent" value="139081000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1920" height="1080" extended-state="0" />
@@ -930,17 +932,18 @@
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="2" weight="0.25" />
       <window_info id="UI Designer" order="4" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.40696517" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.40696517" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Messages" order="10" weight="0.32935324" />
       <window_info anchor="right" id="Palette&#9;" order="5" />
       <window_info id="Image Layers" order="7" />
       <window_info anchor="right" id="Capture Analysis" order="7" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.39900497" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.39900497" />
       <window_info anchor="bottom" id="Version Control" order="9" />
       <window_info anchor="bottom" id="Terminal" order="11" weight="0.35422885" />
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.3336887" />
       <window_info id="JRebel" order="5" side_tool="true" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32935324" />
       <window_info anchor="right" id="Theme Preview" order="8" />
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -949,7 +952,6 @@
       <window_info anchor="right" x="100" y="100" width="1240" height="700" id="Documentation" internal_type="FLOATING" order="0" type="FLOATING" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="3" weight="0.25" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.32935324" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -963,12 +965,18 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/test/java/com/vizorgames/interview/InjectorTest.java</url>
-          <line>65</line>
+          <line>46</line>
           <properties />
-          <option name="timeStamp" value="45" />
+          <option name="timeStamp" value="47" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/vizorgames/interview/ioc/InjectorImpl.java</url>
+          <line>25</line>
+          <properties />
+          <option name="timeStamp" value="49" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="46" />
+      <option name="time" value="50" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
@@ -985,12 +993,14 @@
           <caret line="21" selection-start-line="21" selection-end-line="21" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1857#1858#0" expanded="true" />
-            <element signature="e#1918#1919#0" expanded="true" />
-            <element signature="e#6371#6372#0" expanded="true" />
-            <element signature="e#6431#6432#0" expanded="true" />
-            <element signature="e#7027#7028#0" expanded="true" />
-            <element signature="e#7072#7073#0" expanded="true" />
+            <element signature="e#1915#1916#0" expanded="true" />
+            <element signature="e#1974#1975#0" expanded="true" />
+            <element signature="e#6667#6668#0" expanded="true" />
+            <element signature="e#6727#6728#0" expanded="true" />
+            <element signature="e#7327#7328#0" expanded="true" />
+            <element signature="e#7372#7373#0" expanded="true" />
+            <element signature="e#7463#7464#0" expanded="true" />
+            <element signature="e#7512#7513#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1065,12 +1075,14 @@
           <caret line="7" column="11" selection-start-line="7" selection-start-column="11" selection-end-line="7" selection-end-column="11" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1857#1858#0" expanded="true" />
-            <element signature="e#1918#1919#0" expanded="true" />
-            <element signature="e#6371#6372#0" expanded="true" />
-            <element signature="e#6431#6432#0" expanded="true" />
-            <element signature="e#7027#7028#0" expanded="true" />
-            <element signature="e#7072#7073#0" expanded="true" />
+            <element signature="e#1915#1916#0" expanded="true" />
+            <element signature="e#1974#1975#0" expanded="true" />
+            <element signature="e#6667#6668#0" expanded="true" />
+            <element signature="e#6727#6728#0" expanded="true" />
+            <element signature="e#7327#7328#0" expanded="true" />
+            <element signature="e#7372#7373#0" expanded="true" />
+            <element signature="e#7463#7464#0" expanded="true" />
+            <element signature="e#7512#7513#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1296,13 +1308,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/com/vizorgames/interview/data/dao/event/InMemoryEventDAO.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="7" column="14" selection-start-line="7" selection-start-column="14" selection-end-line="7" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/com/vizorgames/interview/data/service/EventService.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="102">
@@ -1314,10 +1319,17 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/com/vizorgames/interview/data/dao/event/InMemoryEventDAO.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="7" column="14" selection-start-line="7" selection-start-column="14" selection-end-line="7" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/com/vizorgames/interview/InjectorTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="508">
-          <caret line="65" selection-start-line="65" selection-end-line="65" />
+        <state relative-caret-position="685">
+          <caret line="118" column="51" selection-start-line="118" selection-start-column="51" selection-end-line="118" selection-end-column="51" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -1326,16 +1338,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/vizorgames/interview/ioc/InjectorImpl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2069">
-          <caret line="152" selection-start-line="152" selection-end-line="152" />
+        <state relative-caret-position="226">
+          <caret line="106" column="90" selection-start-line="106" selection-start-column="90" selection-end-line="106" selection-end-column="90" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1857#1858#0" expanded="true" />
-            <element signature="e#1918#1919#0" expanded="true" />
-            <element signature="e#6371#6372#0" expanded="true" />
-            <element signature="e#6431#6432#0" expanded="true" />
-            <element signature="e#7027#7028#0" expanded="true" />
-            <element signature="e#7072#7073#0" expanded="true" />
+            <element signature="e#1915#1916#0" expanded="true" />
+            <element signature="e#1974#1975#0" expanded="true" />
+            <element signature="e#6667#6668#0" expanded="true" />
+            <element signature="e#6727#6728#0" expanded="true" />
+            <element signature="e#7327#7328#0" expanded="true" />
+            <element signature="e#7372#7373#0" expanded="true" />
+            <element signature="e#7463#7464#0" expanded="true" />
+            <element signature="e#7512#7513#0" expanded="true" />
           </folding>
         </state>
       </provider>

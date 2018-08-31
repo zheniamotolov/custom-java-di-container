@@ -117,8 +117,7 @@ class InjectorTest {
     void testBindingNotFoundException() {
         assertThrows(BindingNotFoundException.class, () -> {
             Injector injector = new InjectorImpl();
-//          injector.bind(EventService.class, EventService.class);
-            Provider<EventService> serviceProvider = injector.getProvider(EventService.class);//why this class not make bind() on itself like in previous test cases ?
+            Provider<EventService> serviceProvider = injector.getProvider(EventService.class);
 
             // In case of a correct implementation the following statement is unreachable
             assertTrue(serviceProvider == null);
