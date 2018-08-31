@@ -23,11 +23,9 @@ import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class InjectorTest
-{
+class InjectorTest {
     @Test
-    void testExistingBinding()
-    {
+    void testExistingBinding() {
         Injector injector = new InjectorImpl();
         injector.bind(EventDAO.class, InMemoryEventDAO.class);
 
@@ -39,15 +37,13 @@ class InjectorTest
     }
 
     @Test
-    void testNonExistingBinding()
-    {
+    void testNonExistingBinding() {
         Injector injector = new InjectorImpl();
         assertNull(injector.getProvider(EventDAO.class));
     }
 
     @Test
-    void testUniqBinding()
-    {
+    void testUniqBinding() {
         Injector injector = new InjectorImpl();
         injector.bind(EventDAO.class, InMemoryEventDAO.class);
 
@@ -57,8 +53,7 @@ class InjectorTest
     }
 
     @Test
-    void testSingletonBinding()
-    {
+    void testSingletonBinding() {
         Injector injector = new InjectorImpl();
         injector.bindSingleton(EventDAO.class, InMemoryEventDAO.class);
 
@@ -68,8 +63,7 @@ class InjectorTest
     }
 
     @Test
-    void testInjection()
-    {
+    void testInjection() {
         Injector injector = new InjectorImpl();
         injector.bindSingleton(EventDAO.class, InMemoryEventDAO.class);
         injector.bindSingleton(EventService.class, EventService.class);
@@ -82,14 +76,11 @@ class InjectorTest
         EventDAO expectedDao = daoProvider.getInstance();
         EventDAO injectedDao;
 
-        try
-        {
+        try {
             Field daoField = EventService.class.getDeclaredField("dao");// getField method can't return private fields https://docs.oracle.com/javase/tutorial/reflect/member/fieldTrouble.html
             daoField.setAccessible(true);
             injectedDao = (EventDAO) daoField.get(service);
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
 
@@ -97,24 +88,22 @@ class InjectorTest
     }
 
     @Test
-    void testConstructorAmbiguityException()
-    {
-        assertThrows(ConstructorAmbiguityException.class, () -> {
-           Injector injector = new InjectorImpl();
-           injector.bind(EventDAO.class, InMemoryEventDAO.class);
-           injector.bind(ProfileDAO.class, InMemoryProfileDAO.class);
-           injector.bind(InjectAmbiguityService.class, InjectAmbiguityService.class);
+    void testConstructorAmbiguityException() {
+        assertThrows(ConstructorAmbiguityException.class, () -> { //why not on getInstance ?
+            Injector injector = new InjectorImpl();
+            injector.bind(EventDAO.class, InMemoryEventDAO.class);
+            injector.bind(ProfileDAO.class, InMemoryProfileDAO.class);
+            injector.bind(InjectAmbiguityService.class, InjectAmbiguityService.class);
 
-           Provider<InjectAmbiguityService> serviceProvider = injector.getProvider(InjectAmbiguityService.class);
-
+            Provider<InjectAmbiguityService> serviceProvider = injector.getProvider(InjectAmbiguityService.class);
+            serviceProvider.getInstance();
             // In case of correct implementation the following statement is unreachable
             assertTrue(serviceProvider != null);
         });
     }
 
     @Test
-    void testNoSuitableConstructorException()
-    {
+    void testNoSuitableConstructorException() {
         assertThrows(NoSuitableConstructorException.class, () -> {
             Injector injector = new InjectorImpl();
             injector.bind(NoSuitableConstructorService.class, NoSuitableConstructorService.class);
@@ -127,8 +116,7 @@ class InjectorTest
     }
 
     @Test
-    void testBindingNotFoundException()
-    {
+    void testBindingNotFoundException() {
         assertThrows(BindingNotFoundException.class, () -> {
             Injector injector = new InjectorImpl();
 

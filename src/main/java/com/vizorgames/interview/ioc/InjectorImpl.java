@@ -22,7 +22,6 @@ public class InjectorImpl implements Injector {
     private Set<Class> instantiableClasses = new HashSet<>();
 
     private final Map<Class, Provider> providerMap = new HashMap<>();
-    //    private Map<Class, Class> interfaceMappings = new HashMap<>();
     private final Map<Class<?>, Class<?>> classMap = new HashMap<>();
     private Map<Class, Class>  interfaceMappings = new HashMap<>();
     private Set<Class> singletonClasses = new HashSet<>();
@@ -48,10 +47,8 @@ public class InjectorImpl implements Injector {
             if (constructorsWithInject.size() != 1) {
                 System.out.println("kek");
                 throw new BindingNotFoundException();
-//                throw new ConstructorAmbiguityException("There are more than one public constructors so I don't know which to use. ");
             }
 
-            // we are not modifying the constructor array so we can safely cast here.
             return (Constructor<T>) constructorsWithInject.get(0);
         } else {
             return (Constructor<T>) constructors[0];
@@ -90,7 +87,6 @@ public class InjectorImpl implements Injector {
 
             markAsInstantiable(type);
 
-//            // when the class is marked as singleton it's instance is now added to the singleton map
 //            if (isSingleton(type)) {
 //                singletonInstances.put(type, newInstance);
 //            }
@@ -99,13 +95,13 @@ public class InjectorImpl implements Injector {
             }
             return newInstance;
         } catch (Exception e) {
-            throw new BindingNotFoundException();
+            throw new ConstructorAmbiguityException("constructor ambiguity");
         }
     }
 
 
     @Override
-    public synchronized  <T> Provider<T>  getProvider(Class<T> requestedType) {
+    public   <T> Provider<T>  getProvider(Class<T> requestedType) {
         if (interfaceMappings.containsKey(requestedType) || singletonMappings.containsKey(requestedType)) {
             return new Provider<T>() {
                 @Override
@@ -120,11 +116,11 @@ public class InjectorImpl implements Injector {
 //        return getInstanceCustom(requestedType);
     }
 
-    public synchronized <T> T getInstanceCustom(Class<T> requestedType) {
+    public  <T> T getInstanceCustom(Class<T> requestedType) {
         return getInstanceCustom(requestedType, null);
     }
 
-    private synchronized <T> T getInstanceFromProvider(Class<T> type) {
+    private  <T> T getInstanceFromProvider(Class<T> type) {
         try {
             final Provider<T> provider = providerMap.get(type);
             return provider.getInstance();
@@ -133,8 +129,6 @@ public class InjectorImpl implements Injector {
         }
 
     }
-
-    //    @SuppressWarnings("unchecked")
     private <T> T getInstanceCustom(Class<T> requestedType, Class<?> parent) {
         try {
 
@@ -151,18 +145,13 @@ public class InjectorImpl implements Injector {
                 return getInstanceFromProvider(requestedType);
             }
             if (requestedClasses.contains(type)) {
-                // ... we should have been able to instantiate it in the past ...
                 if (!instantiableClasses.contains(type)) {
-
-                    // if not, this means a cyclic dependency and is an error
                     throw new ConstructorAmbiguityException();
                 }
             } else {
-                // if this class wasn't requested before we now add it to the checklist.
                 requestedClasses.add(type);
             }
             if (singletonInstances.containsKey(type)) {
-                // ... we immediately return it.
                 return (T) singletonInstances.get(type);
             }
 
@@ -175,15 +164,8 @@ public class InjectorImpl implements Injector {
                 return instanceFromProvider;
             }
             return createNewInstance(type, parent);
-        } catch (BindingNotFoundException e) {
+        } catch (Exception e) {
             String errorMessage = "EasyDI wasn't able to create your class hierarchy. ";
-
-            if (parent != null) {
-                errorMessage += "\nCannot instantiate the class [" + parent.getName() + "]. "
-                        + "At least one of the constructor parameters of type [" + requestedType + "] can't be instantiated. ";
-            }
-            errorMessage += "See the root cause exception for a detailed explanation.";
-
             throw new IllegalStateException(errorMessage, e);
         }
 
