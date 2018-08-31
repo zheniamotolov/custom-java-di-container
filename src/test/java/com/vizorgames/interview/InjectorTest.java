@@ -35,8 +35,6 @@ class InjectorTest
 
         assertNotNull(daoProvider);
         assertNotNull(daoProvider.getInstance());
-
-
         assertSame(InMemoryEventDAO.class, daoProvider.getInstance().getClass());
     }
 
@@ -86,7 +84,7 @@ class InjectorTest
 
         try
         {
-            Field daoField = EventService.class.getField("dao");
+            Field daoField = EventService.class.getDeclaredField("dao");// getField method can't return private fields https://docs.oracle.com/javase/tutorial/reflect/member/fieldTrouble.html
             daoField.setAccessible(true);
             injectedDao = (EventDAO) daoField.get(service);
         }

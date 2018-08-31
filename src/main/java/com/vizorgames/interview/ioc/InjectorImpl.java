@@ -24,7 +24,7 @@ public class InjectorImpl implements Injector {
     private final Map<Class, Provider> providerMap = new HashMap<>();
     //    private Map<Class, Class> interfaceMappings = new HashMap<>();
     private final Map<Class<?>, Class<?>> classMap = new HashMap<>();
-    private Map<Class, Class> interfaceMappings = new HashMap<>();
+    private Map<Class, Class>  interfaceMappings = new HashMap<>();
     private Set<Class> singletonClasses = new HashSet<>();
     private Map<Class, Object> singletonInstances = new HashMap<>();
     private Map<Class, Class> singletonMappings = new HashMap<>();
@@ -44,8 +44,11 @@ public class InjectorImpl implements Injector {
                     .filter(c -> c.isAnnotationPresent(Inject.class))
                     .collect(Collectors.toList());
 
+
             if (constructorsWithInject.size() != 1) {
+                System.out.println("kek");
                 throw new BindingNotFoundException();
+//                throw new ConstructorAmbiguityException("There are more than one public constructors so I don't know which to use. ");
             }
 
             // we are not modifying the constructor array so we can safely cast here.
@@ -102,11 +105,12 @@ public class InjectorImpl implements Injector {
 
 
     @Override
-    public <T> Provider<T> getProvider(Class<T> requestedType) {
-        if (interfaceMappings.containsKey(requestedType)||singletonMappings.containsKey(requestedType)) {
+    public synchronized  <T> Provider<T>  getProvider(Class<T> requestedType) {
+        if (interfaceMappings.containsKey(requestedType) || singletonMappings.containsKey(requestedType)) {
             return new Provider<T>() {
                 @Override
                 public T getInstance() {
+
                     return getInstanceCustom(requestedType);
                 }
             };
@@ -116,11 +120,11 @@ public class InjectorImpl implements Injector {
 //        return getInstanceCustom(requestedType);
     }
 
-    public <T> T getInstanceCustom(Class<T> requestedType) {
+    public synchronized <T> T getInstanceCustom(Class<T> requestedType) {
         return getInstanceCustom(requestedType, null);
     }
 
-    private <T> T getInstanceFromProvider(Class<T> type) {
+    private synchronized <T> T getInstanceFromProvider(Class<T> type) {
         try {
             final Provider<T> provider = providerMap.get(type);
             return provider.getInstance();
@@ -133,11 +137,15 @@ public class InjectorImpl implements Injector {
     //    @SuppressWarnings("unchecked")
     private <T> T getInstanceCustom(Class<T> requestedType, Class<?> parent) {
         try {
+
             Class<T> type = requestedType;
 
             if (requestedType.isInterface()) {
                 if (interfaceMappings.containsKey(requestedType)) {
                     type = interfaceMappings.get(requestedType);
+                }
+                if (singletonMappings.containsKey(requestedType)) {
+                    type = singletonMappings.get(requestedType);
                 }
             } else if (providerMap.containsKey(requestedType)) {
                 return getInstanceFromProvider(requestedType);
@@ -168,14 +176,23 @@ public class InjectorImpl implements Injector {
             }
             return createNewInstance(type, parent);
         } catch (BindingNotFoundException e) {
-            throw new BindingNotFoundException();
+            String errorMessage = "EasyDI wasn't able to create your class hierarchy. ";
+
+            if (parent != null) {
+                errorMessage += "\nCannot instantiate the class [" + parent.getName() + "]. "
+                        + "At least one of the constructor parameters of type [" + requestedType + "] can't be instantiated. ";
+            }
+            errorMessage += "See the root cause exception for a detailed explanation.";
+
+            throw new IllegalStateException(errorMessage, e);
         }
 
     }
 
     private boolean isSingleton(Class type) {
-        return  singletonMappings.containsKey(type);
+        return singletonMappings.containsValue(type);
     }
+
     private void markAsInstantiable(Class type) {
         if (!instantiableClasses.contains(type)) {
             instantiableClasses.add(type);
