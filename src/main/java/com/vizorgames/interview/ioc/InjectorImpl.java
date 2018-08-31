@@ -25,6 +25,8 @@ public class InjectorImpl implements Injector {
     //    private Map<Class, Class> interfaceMappings = new HashMap<>();
     private final Map<Class<?>, Class<?>> classMap = new HashMap<>();
     private Map<Class, Class> interfaceMappings = new HashMap<>();
+    private Set<Class> singletonClasses = new HashSet<>();
+    private Map<Class, Object> singletonInstances = new HashMap<>();
     private Map<Class, Class> singletonMappings = new HashMap<>();
 
 
@@ -89,7 +91,9 @@ public class InjectorImpl implements Injector {
 //            if (isSingleton(type)) {
 //                singletonInstances.put(type, newInstance);
 //            }
-
+            if (isSingleton(type)) {
+                singletonInstances.put(type, newInstance);
+            }
             return newInstance;
         } catch (Exception e) {
             throw new BindingNotFoundException();
@@ -99,7 +103,7 @@ public class InjectorImpl implements Injector {
 
     @Override
     public <T> Provider<T> getProvider(Class<T> requestedType) {
-        if (interfaceMappings.containsKey(requestedType)) {
+        if (interfaceMappings.containsKey(requestedType)||singletonMappings.containsKey(requestedType)) {
             return new Provider<T>() {
                 @Override
                 public T getInstance() {
@@ -149,9 +153,17 @@ public class InjectorImpl implements Injector {
                 // if this class wasn't requested before we now add it to the checklist.
                 requestedClasses.add(type);
             }
+            if (singletonInstances.containsKey(type)) {
+                // ... we immediately return it.
+                return (T) singletonInstances.get(type);
+            }
+
             if (providerMap.containsKey(type)) {
                 final T instanceFromProvider = getInstanceFromProvider(type);
                 markAsInstantiable(type);
+                if (isSingleton(type)) {
+                    singletonInstances.put(type, instanceFromProvider);
+                }
                 return instanceFromProvider;
             }
             return createNewInstance(type, parent);
@@ -161,6 +173,9 @@ public class InjectorImpl implements Injector {
 
     }
 
+    private boolean isSingleton(Class type) {
+        return  singletonMappings.containsKey(type);
+    }
     private void markAsInstantiable(Class type) {
         if (!instantiableClasses.contains(type)) {
             instantiableClasses.add(type);
